@@ -83,17 +83,30 @@ ui <- fluidPage(
     
     hr(),
     
-    
+    #textOutput("total.score.class.text"),
     wellPanel(
-        h3( textOutput("total.score.label.text", inline=T), 
-            "Risk (",  textOutput("total.score.class.text", inline=T), ") Stratum" ),
-        h3("RR6 score: ", textOutput("total.score.score.text", inline=T)),
-        p("Spleen: ",textOutput("spleen.score.text", inline=T), " points"),
-        p("Dose: ",textOutput("dose.score.text", inline=T), " points"),
-        p("Transfusion: ",textOutput("transfusion.score.text", inline=T), " points"),
-    
+    h3("Results"),
+    p("Risk stratum:", strong(textOutput("total.score.class.text", inline=T), "-",  
+                              strong(textOutput("total.score.label.text", inline=T)))),
+    p("Median survival:", strong("FIXME") ),
+    h3("Calculation"),
+        p("Risk points for spleen: ", strong(textOutput("spleen.score.text", inline=T))),
+        p("Risk points for rux dose: ", strong(textOutput("dose.score.text", inline=T))),
+        p("Risk points for transfusion: ", strong(textOutput("transfusion.score.text", inline=T))),
+        p("Total Risk points: ", strong(textOutput("total.score.score.text", inline=T))),
     ),
-    
+
+    # wellPanel(
+    #      h3("Results"),
+    #      p("Risk stratum:", textOutput("total.score.class.text", inline=T)),
+    #      p("Median survival:", textOutput("total.score.class.text", inline=T)),
+    #      
+    #      h3("Calculation"),
+    #      p("Risk points for spleen: ", textOutput("spleen.score.text", inline=T)),
+    #      p("Risk points for rux dose: ", textOutput("dose.score.text", inline=T)),
+    #      p("Risk points for transfusion: ", textOutput("transfusion.score.text", inline=T))
+    #  ),
+    # 
     hr(),
     p("Overall survival, based on a cohort of XX patients. From Maffioli et al., xxxx"),
     
@@ -150,7 +163,6 @@ server <- function(input, output) {
     output$total.score.score.text <- renderText(total.score()$score)
     output$total.score.class.text <- renderText(total.score()$class)
     output$total.score.label.text <- renderText(total.score()$label)
-
     
 }
 

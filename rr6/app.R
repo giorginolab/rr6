@@ -15,7 +15,7 @@ spleen.max <- 30
 ui <- fluidPage(
     title = "RR6 Model",
     
-    titlePanel("RR6 Model Calculator"),
+    titlePanel("RR6 Model Calculator - Preview"),
     p("The RR6 model predicts survival in myelofibrosis based on clinical response after 6 months of ruxolitinib."),
     p("Reference: M. Maffioli et al., A Prognostic Model to Predict Survival After 6 Months of Ruxolitinib in Patients with Myelofibrosis. (Under review)."),
     p(em("The model is for research use only. It does not constitute medical advice.")),
@@ -23,10 +23,10 @@ ui <- fluidPage(
     hr(),
     
     fluidRow(
-        column(4,wellPanel(
+        column(4,inputPanel(
             h4("Data at baseline"),
             sliderInput('spleen_0', 
-                        label='Spleen size (cm b.c.m.)', 
+                        label='Spleen size (cm below l.c.m.)', 
                         min=5, max=spleen.max, 
                         value=5, round=-1),
             br(),
@@ -37,15 +37,16 @@ ui <- fluidPage(
             br(),
             radioButtons("rbc_0", 
                          label = "RBC transfusion",
-                         choices = list("Not necessary" = 0,
-                                        "Necessary" = 1), 
+                         choices = list("Not performed" = 0,
+                                        "Performed" = 1), 
                          selected = 0),
+            p("in the previous 3 months.")
         )
         ),
-        column(4,wellPanel(
+        column(4,inputPanel(
             h4("Data at 3 months"),
             sliderInput('spleen_3', 
-                        label='Spleen size (cm bcm)', 
+                        label='Spleen size (cm below l.c.m.)', 
                         min=0, max=spleen.max, 
                         value=0, round=-1),
             br(),
@@ -56,28 +57,30 @@ ui <- fluidPage(
             br(),
             radioButtons("rbc_3", 
                          label = "RBC transfusion",
-                         choices = list("Not necessary" = 0,
-                                        "Necessary" = 1), 
+                         choices = list("Not performed" = 0,
+                                        "Performed" = 1), 
                          selected = 0),
+            p("since baseline.")
         )),
-        column(4,
-               h4("Data at 6 months"),
-               sliderInput('spleen_6', 
-                           label='Spleen size (cm bcm)', 
-                           min=0, max=spleen.max, 
-                           value=0, round=-1),
-               br(),
-               sliderInput('rux_6', 
-                           label='Daily RUX dose (mg)',
-                           min=0, max=50, step=5,
-                           value=0),
-               br(),
-               radioButtons("rbc_6", 
-                            label = "RBC transfusion",
-                            choices = list("Not necessary" = 0,
-                                           "Necessary" = 1), 
-                            selected = 0),
-        ),
+        column(4,inputPanel(
+            h4("Data at 6 months"),
+            sliderInput('spleen_6', 
+                        label='Spleen size (cm below l.c.m.)', 
+                        min=0, max=spleen.max, 
+                        value=0, round=-1),
+            br(),
+            sliderInput('rux_6', 
+                        label='Daily RUX dose (mg)',
+                        min=0, max=50, step=5,
+                        value=0),
+            br(),
+            radioButtons("rbc_6", 
+                         label = "RBC transfusion",
+                         choices = list("Not performed" = 0,
+                                        "Performed" = 1), 
+                         selected = 0),
+            p("since the 3 mo visit.")
+        )),
         
     ),
     

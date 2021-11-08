@@ -16,21 +16,23 @@ ui <- fluidPage(
     title = "RR6 Model",
     
     titlePanel("RR6 Model Calculator"),
-    p("Bla bla"),
+    p("The RR6 model predicts survival in myelofibrosis based on clinical response after 6 months of ruxolitinib."),
+    p("Reference: M. Maffioli et al., A Prognostic Model to Predict Survival After 6 Months of Ruxolitinib in Patients with Myelofibrosis. (Under review)."),
+    p(em("The model is for research use only. It does not constitute medical advice.")),
     
     hr(),
     
     fluidRow(
-        column(4,
+        column(4,wellPanel(
                h4("Data at baseline"),
                sliderInput('spleen_0', 
-                           label='Spleen size (cm bcm)', 
-                           min=0, max=spleen.max, 
-                           value=0, round=-1),
+                           label='Spleen size (cm b.c.m.)', 
+                           min=5, max=spleen.max, 
+                           value=5, round=-1),
                br(),
-               numericInput('rux_0', 
+               sliderInput('rux_0', 
                             label='Daily RUX dose (mg)',
-                            step=1,
+                            min=0, max=50, step=5,
                             value=0),
                br(),
                radioButtons("rbc_0", 
@@ -38,6 +40,7 @@ ui <- fluidPage(
                             choices = list("Not necessary" = 0,
                                            "Necessary" = 1), 
                             selected = 0),
+        )
         ),
         column(4,wellPanel(
                h4("Data at 3 months"),
@@ -46,13 +49,16 @@ ui <- fluidPage(
                            min=0, max=spleen.max, 
                            value=0, round=-1),
                br(),
-               numericInput('rux_3', 
-                            label='RUX dose per day',
-                            step=20,
+               sliderInput('rux_3', 
+                           label='Daily RUX dose (mg)',
+                           min=0, max=50, step=5,
                             value=0),
                br(),
-               checkboxInput('rbc_3', 
-                             label='RBC transfusion')
+               radioButtons("rbc_3", 
+                            label = "RBC transfusion",
+                            choices = list("Not necessary" = 0,
+                                           "Necessary" = 1), 
+                            selected = 0),
         )),
         column(4,
                h4("Data at 6 months"),
@@ -61,13 +67,16 @@ ui <- fluidPage(
                            min=0, max=spleen.max, 
                            value=0, round=-1),
                br(),
-               numericInput('rux_6', 
-                            label='RUX dose per day',
-                            step=20,
+               sliderInput('rux_6', 
+                           label='Daily RUX dose (mg)',
+                           min=0, max=50, step=5,
                             value=0),
                br(),
-               checkboxInput('rbc_6', 
-                             label='RBC transfusion')
+               radioButtons("rbc_6", 
+                            label = "RBC transfusion",
+                            choices = list("Not necessary" = 0,
+                                           "Necessary" = 1), 
+                            selected = 0),
         ),
 
     ),
@@ -76,11 +85,13 @@ ui <- fluidPage(
     
     
     wellPanel(
-        h3("RR6 score: "),
-        p("Spleen: ",textOutput("spl_score", inline=T), " points"),
-        
-        textOutput("rr6_score_text"),
-        
+        h3( textOutput("total.score.label.text", inline=T), 
+            "Risk (",  textOutput("total.score.class.text", inline=T), ") Stratum" ),
+        h3("RR6 score: ", textOutput("total.score.score.text", inline=T)),
+        p("Spleen: ",textOutput("spleen.score.text", inline=T), " points"),
+        p("Dose: ",textOutput("dose.score.text", inline=T), " points"),
+        p("Transfusion: ",textOutput("transfusion.score.text", inline=T), " points"),
+    
     ),
     
     hr(),
@@ -93,18 +104,53 @@ ui <- fluidPage(
 # Define server logic required to draw a histogram
 server <- function(input, output) {
     
-    spl.score <- function(input) {
+    spl.score <- function() {
         low.spl.resp.3 <- (input$spleen_0-input$spleen_3)/input$spleen_0 <= .3
         low.spl.resp.6 <- (input$spleen_0-input$spleen_6)/input$spleen_0 <= .3
         s<-ifelse(low.spl.resp.3 && low.spl.resp.6, 1.5, 0)
-        if(is.na(s)) {
+        s <- ifelse(is.na(s),0,s)
+        return(s)
+    }
+    
+    dose.score <- function() {
+        s <- ifelse( input$rux_0<40 && input$rux_3<40 && input$rux_6<40, 1, 0)
+        return(s)
+    }
+    
+    transfusion.score <- function() {
+        if(input$rbc_0==1 && input$rbc_3==1 && input$rbc_6==1) {
+            s<-1.5
+        } else if (input$rbc_3==1 || input$rbc_6==1) {
+            s<-1
+        } else {
             s<-0
         }
-        s
+        return(s)
     }
+    
+    total.score <- function() {
+        s <- spl.score()+dose.score()+transfusion.score()
+        if(s==0) {
+            gs <- "LR"
+            gl <- "Low"
+        } else if(s <= 2 ) {
+            gs <- "IR"
+            gl <- "Intermediate"
+        } else {
+            gs <- "HR"
+            gl <- "High"
+        }
+        list(score=s, class=gs, label=gl)
+    }
+    
+    output$spleen.score.text <- renderText(spl.score())
+    output$dose.score.text <- renderText(dose.score())
+    output$transfusion.score.text <- renderText(transfusion.score())
 
-    output$spl_score <- renderText(spl.score(input))
-       
+    output$total.score.score.text <- renderText(total.score()$score)
+    output$total.score.class.text <- renderText(total.score()$class)
+    output$total.score.label.text <- renderText(total.score()$label)
+
     
 }
 

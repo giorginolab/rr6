@@ -1,16 +1,9 @@
-#
-# This is a Shiny web application. You can run the application by clicking
-# the 'Run App' button above.
-#
-# Find out more about building applications with Shiny here:
-#
-#    http://shiny.rstudio.com/
-#
+
 
 library(shiny)
-library(ggplot2)
 
 spleen.max <- 30
+rux.help <- "E.g.: 20 mg BID = 40 mg total daily dose"
 
 ui <- fluidPage(
     title = "RR6 Model",
@@ -18,7 +11,7 @@ ui <- fluidPage(
     titlePanel("RR6 Calculator — Preview"),
     p("The RR6 model predicts survival in myelofibrosis based on clinical response after 6 months of ruxolitinib."),
     p("Reference: M. Maffioli et al., A Prognostic Model to Predict Survival After 6 Months of Ruxolitinib in Patients with Myelofibrosis. (Under review)."),
-    p(em("The model is for research use only. It does not constitute medical advice.")),
+    div(em("IMPORTANT: This tool is for educational use only. It does not constitute medical advice. It should not be used for medical diagnosis and/or medical treatment."),style="font-size: smaller"),
     
     hr(),
     
@@ -36,7 +29,7 @@ ui <- fluidPage(
                         label='Total daily ruxolitinib dose (mg)',
                         min=0, max=50, step=5,
                         value=0),
-            helpText("E.g.: 20 mg bis in die (BID) = 40 mg total daily dose"),
+            helpText(rux.help),
             br(),
             radioButtons("rbc_0", 
                          label = "RBC transfusions",
@@ -58,7 +51,7 @@ ui <- fluidPage(
                         label='Total daily ruxolitinib dose (mg)',
                         min=0, max=50, step=5,
                         value=0),
-            helpText("E.g.: 20 mg bis in die (BID) = 40 mg total daily dose"),
+            helpText(rux.help),
             br(),
             radioButtons("rbc_3", 
                          label = "RBC transfusions",
@@ -80,7 +73,7 @@ ui <- fluidPage(
                         label='Total daily ruxolitinib dose (mg)',
                         min=0, max=50, step=5,
                         value=0),
-            helpText("E.g.: 20 mg bis in die (BID) = 40 mg total daily dose"),
+            helpText(rux.help),
             br(),
             radioButtons("rbc_6", 
                          label = "RBC transfusions",
@@ -118,7 +111,9 @@ ui <- fluidPage(
                h4("Legend"),
                span(strong("RBC"),"- red blood cell"),
                br(),
-               span(strong("LCM"), "- left costal margin")
+               span(strong("LCM"), "- left costal margin"),
+               br(),
+               span(strong("BID"), "- bis in die, twice daily")
         )
     ),
     

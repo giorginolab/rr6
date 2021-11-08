@@ -23,7 +23,7 @@ ui <- fluidPage(
     hr(),
     
     fluidRow(
-        column(4,inputPanel(
+        column(4,wellPanel(
             h4("Data at baseline"),
             sliderInput('spleen_0', 
                         label='Spleen size (cm below l.c.m.)', 
@@ -37,10 +37,10 @@ ui <- fluidPage(
             br(),
             radioButtons("rbc_0", 
                          label = "RBC transfusion",
-                         choices = list("Not performed" = 0,
-                                        "Performed" = 1), 
+                         choices = list("not performed" = 0,
+                                        "performed" = 1), 
                          selected = 0),
-            p("in the previous 3 months.")
+            "...in the previous 3 months."
         )
         ),
         column(4,inputPanel(
@@ -57,10 +57,10 @@ ui <- fluidPage(
             br(),
             radioButtons("rbc_3", 
                          label = "RBC transfusion",
-                         choices = list("Not performed" = 0,
-                                        "Performed" = 1), 
+                         choices = list("not performed" = 0,
+                                        "performed" = 1), 
                          selected = 0),
-            p("since baseline.")
+            "...since baseline."
         )),
         column(4,inputPanel(
             h4("Data at 6 months"),
@@ -76,51 +76,47 @@ ui <- fluidPage(
             br(),
             radioButtons("rbc_6", 
                          label = "RBC transfusion",
-                         choices = list("Not performed" = 0,
-                                        "Performed" = 1), 
+                         choices = list("not performed" = 0,
+                                        "performed" = 1), 
                          selected = 0),
-            p("since the 3 mo visit.")
+            "...since the 3 mo visit."
         )),
         
     ),
     
     hr(),
     
-    #textOutput("total.score.class.text"),
     fluidRow(
-        column(6,
+        column(5,
                wellPanel(
                    h3("Results"),
                    p("Risk stratum:", strong(textOutput("total.score.class.text", inline=T), "-",  
                                              strong(textOutput("total.score.label.text", inline=T)))),
                    p("Median survival:", strong("FIXME") ),
                )),
-        column(6,
-               wellPanel(
-                   h3("Calculation"),
+        column(3,
+                   h4("Calculation"),
                    span("Risk points for spleen: ", strong(textOutput("spleen.score.text", inline=T))),
                    br(),
                    span("Risk points for rux dose: ", strong(textOutput("dose.score.text", inline=T))),
                    br(),
                    span("Risk points for transfusion: ", strong(textOutput("transfusion.score.text", inline=T))),
-                   p("Total Risk points: ", strong(textOutput("total.score.score.text", inline=T))),
-               ))
+                   p("Total: ", strong(textOutput("total.score.score.text", inline=T))),
+               ),
+        column(3,offset=1,
+               h4("Legend"),
+               span(strong("RBC"),"- red blood cells"),
+               br(),
+               span(strong("l.c.m."), "- left costal margin")
+               )
     ),
     
-    # wellPanel(
-    #      h3("Results"),
-    #      p("Risk stratum:", textOutput("total.score.class.text", inline=T)),
-    #      p("Median survival:", textOutput("total.score.class.text", inline=T)),
-    #      
-    #      h3("Calculation"),
-    #      p("Risk points for spleen: ", textOutput("spleen.score.text", inline=T)),
-    #      p("Risk points for rux dose: ", textOutput("dose.score.text", inline=T)),
-    #      p("Risk points for transfusion: ", textOutput("transfusion.score.text", inline=T))
-    #  ),
-    # 
     hr(),
-    p("Overall survival, based on a cohort of XX patients. From Maffioli et al., xxxx"),
-    
+    h4("Survival curves"),
+    "Actuarial survival curves of the 3 risk groups of patients according to the",
+    em("Response to Ruxolitinib after 6 months"),
+    "(RR6) developed in ruxolitinib-treated myelofibrosis patients (training cohort).  From Maffioli et al., xxxx",
+    br(),
     img(src="km-curve.jpeg")
     
 )

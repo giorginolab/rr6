@@ -24,41 +24,41 @@ ui <- fluidPage(
     
     fluidRow(
         column(4,wellPanel(
-               h4("Data at baseline"),
-               sliderInput('spleen_0', 
-                           label='Spleen size (cm b.c.m.)', 
-                           min=5, max=spleen.max, 
-                           value=5, round=-1),
-               br(),
-               sliderInput('rux_0', 
-                            label='Daily RUX dose (mg)',
-                            min=0, max=50, step=5,
-                            value=0),
-               br(),
-               radioButtons("rbc_0", 
-                            label = "RBC transfusion",
-                            choices = list("Not necessary" = 0,
-                                           "Necessary" = 1), 
-                            selected = 0),
+            h4("Data at baseline"),
+            sliderInput('spleen_0', 
+                        label='Spleen size (cm b.c.m.)', 
+                        min=5, max=spleen.max, 
+                        value=5, round=-1),
+            br(),
+            sliderInput('rux_0', 
+                        label='Daily RUX dose (mg)',
+                        min=0, max=50, step=5,
+                        value=0),
+            br(),
+            radioButtons("rbc_0", 
+                         label = "RBC transfusion",
+                         choices = list("Not necessary" = 0,
+                                        "Necessary" = 1), 
+                         selected = 0),
         )
         ),
         column(4,wellPanel(
-               h4("Data at 3 months"),
-               sliderInput('spleen_3', 
-                           label='Spleen size (cm bcm)', 
-                           min=0, max=spleen.max, 
-                           value=0, round=-1),
-               br(),
-               sliderInput('rux_3', 
-                           label='Daily RUX dose (mg)',
-                           min=0, max=50, step=5,
-                            value=0),
-               br(),
-               radioButtons("rbc_3", 
-                            label = "RBC transfusion",
-                            choices = list("Not necessary" = 0,
-                                           "Necessary" = 1), 
-                            selected = 0),
+            h4("Data at 3 months"),
+            sliderInput('spleen_3', 
+                        label='Spleen size (cm bcm)', 
+                        min=0, max=spleen.max, 
+                        value=0, round=-1),
+            br(),
+            sliderInput('rux_3', 
+                        label='Daily RUX dose (mg)',
+                        min=0, max=50, step=5,
+                        value=0),
+            br(),
+            radioButtons("rbc_3", 
+                         label = "RBC transfusion",
+                         choices = list("Not necessary" = 0,
+                                        "Necessary" = 1), 
+                         selected = 0),
         )),
         column(4,
                h4("Data at 6 months"),
@@ -70,7 +70,7 @@ ui <- fluidPage(
                sliderInput('rux_6', 
                            label='Daily RUX dose (mg)',
                            min=0, max=50, step=5,
-                            value=0),
+                           value=0),
                br(),
                radioButtons("rbc_6", 
                             label = "RBC transfusion",
@@ -78,24 +78,32 @@ ui <- fluidPage(
                                            "Necessary" = 1), 
                             selected = 0),
         ),
-
+        
     ),
     
     hr(),
     
     #textOutput("total.score.class.text"),
-    wellPanel(
-    h3("Results"),
-    p("Risk stratum:", strong(textOutput("total.score.class.text", inline=T), "-",  
-                              strong(textOutput("total.score.label.text", inline=T)))),
-    p("Median survival:", strong("FIXME") ),
-    h3("Calculation"),
-        p("Risk points for spleen: ", strong(textOutput("spleen.score.text", inline=T))),
-        p("Risk points for rux dose: ", strong(textOutput("dose.score.text", inline=T))),
-        p("Risk points for transfusion: ", strong(textOutput("transfusion.score.text", inline=T))),
-        p("Total Risk points: ", strong(textOutput("total.score.score.text", inline=T))),
+    fluidRow(
+        column(6,
+               wellPanel(
+                   h3("Results"),
+                   p("Risk stratum:", strong(textOutput("total.score.class.text", inline=T), "-",  
+                                             strong(textOutput("total.score.label.text", inline=T)))),
+                   p("Median survival:", strong("FIXME") ),
+               )),
+        column(6,
+               wellPanel(
+                   h3("Calculation"),
+                   span("Risk points for spleen: ", strong(textOutput("spleen.score.text", inline=T))),
+                   br(),
+                   span("Risk points for rux dose: ", strong(textOutput("dose.score.text", inline=T))),
+                   br(),
+                   span("Risk points for transfusion: ", strong(textOutput("transfusion.score.text", inline=T))),
+                   p("Total Risk points: ", strong(textOutput("total.score.score.text", inline=T))),
+               ))
     ),
-
+    
     # wellPanel(
     #      h3("Results"),
     #      p("Risk stratum:", textOutput("total.score.class.text", inline=T)),
@@ -159,7 +167,7 @@ server <- function(input, output) {
     output$spleen.score.text <- renderText(spl.score())
     output$dose.score.text <- renderText(dose.score())
     output$transfusion.score.text <- renderText(transfusion.score())
-
+    
     output$total.score.score.text <- renderText(total.score()$score)
     output$total.score.class.text <- renderText(total.score()$class)
     output$total.score.label.text <- renderText(total.score()$label)

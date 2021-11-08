@@ -27,7 +27,7 @@ ui <- fluidPage(
             h4("Data at baseline"),
             hr(),
             numericInput('spleen_0', 
-                         label='Spleen size (cm below l.c.m.)', 
+                         label='Spleen size (cm below LCM)', 
                          min=5, max=spleen.max, 
                          step=0.1,
                          value=5),
@@ -48,10 +48,11 @@ ui <- fluidPage(
         column(4,wellPanel(
             h4("Data at 3 months"),
             hr(),
-            sliderInput('spleen_3', 
-                        label='Spleen size (cm below l.c.m.)', 
-                        min=0, max=spleen.max, 
-                        value=0, round=-1),
+            numericInput('spleen_3', 
+                         label='Spleen size (cm below LCM)', 
+                         min=0, max=spleen.max, 
+                         step=0.1,
+                         value=0),
             br(),
             sliderInput('rux_3', 
                         label='Total daily ruxolitinib dose (mg)',
@@ -69,10 +70,11 @@ ui <- fluidPage(
         column(4,wellPanel(
             h4("Data at 6 months"),
             hr(),
-            sliderInput('spleen_6', 
-                        label='Spleen size (cm below l.c.m.)', 
-                        min=0, max=spleen.max, 
-                        value=0, round=-1),
+            numericInput('spleen_6', 
+                         label='Spleen size (cm below LCM)', 
+                         min=0, max=spleen.max, 
+                         step=0.1,
+                         value=0),
             br(),
             sliderInput('rux_6', 
                         label='Total daily ruxolitinib dose (mg)',
@@ -98,7 +100,10 @@ ui <- fluidPage(
                    h3("RR6 model results"),
                    p("Risk stratum:", strong(textOutput("total.score.class.text", inline=T), "-",  
                                              strong(textOutput("total.score.label.text", inline=T)))),
-                   p("Median survival:", strong("FIXME") ),
+                   p("Median survival:", 
+                     strong(textOutput("total.score.medianos.text", inline=T), "months")),
+                   p("Median survival 95% CI:",
+                     strong(textOutput("total.score.medianci.text", inline=T), "months")), 
                )),
         column(3,
                h4("Calculation"),
@@ -111,21 +116,28 @@ ui <- fluidPage(
         ),
         column(3,offset=1,
                h4("Legend"),
-               span(strong("RBC"),"- red blood cells"),
+               span(strong("RBC"),"- red blood cell"),
                br(),
-               span(strong("l.c.m."), "- left costal margin")
+               span(strong("LCM"), "- left costal margin")
         )
     ),
     
     hr(),
     h4("Survival curves"),
-    "Actuarial survival curves of the 3 risk groups of patients according to the",
+    p("Actuarial survival curves of the 3 risk groups of patients according to the",
     em("Response to Ruxolitinib after 6 months"),
-    "(RR6) developed in ruxolitinib-treated myelofibrosis patients (training cohort).  From Maffioli et al., xxxx",
+    "(RR6) developed in ruxolitinib-treated myelofibrosis patients (training cohort)."),
+    p("Source: Maffioli et al., A Prognostic Model to Predict Survival After 6 Months of Ruxolitinib in Patients with Myelofibrosis. (Under review)"),
     br(),
     img(src="km-curve.jpeg")
     
 )
+
+
+# LR  Median NR
+# IR  61 mo   43-80 mo
+# HR  33 mo   21-50 mo
+
 
 # Define server logic required to draw a histogram
 server <- function(input, output) {
@@ -159,14 +171,21 @@ server <- function(input, output) {
         if(s==0) {
             gs <- "LR"
             gl <- "Low"
+            ms <- "NR"
+            ci <- "NA"
         } else if(s <= 2 ) {
             gs <- "IR"
             gl <- "Intermediate"
+            ms <- "61"
+            ci <- "43-80"
         } else {
             gs <- "HR"
             gl <- "High"
+            ms <- "33"
+            ci <- "21-50"
         }
-        list(score=s, class=gs, label=gl)
+        list(score=s, class=gs, label=gl,
+             medianos=ms, medianci=ci)
     }
     
     output$spleen.score.text <- renderText(spl.score())
@@ -176,6 +195,10 @@ server <- function(input, output) {
     output$total.score.score.text <- renderText(total.score()$score)
     output$total.score.class.text <- renderText(total.score()$class)
     output$total.score.label.text <- renderText(total.score()$label)
+    
+    output$total.score.medianos.text <- renderText(total.score()$medianos)
+    output$total.score.medianci.text <- renderText(total.score()$medianci)
+    
     
 }
 

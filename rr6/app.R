@@ -144,8 +144,8 @@ ui <- fluidPage(
 server <- function(input, output) {
     
     spl.score <- function() {
-        low.spl.resp.3 <- (input$spleen_0-input$spleen_3)/input$spleen_0 < .3
-        low.spl.resp.6 <- (input$spleen_0-input$spleen_6)/input$spleen_0 < .3
+        low.spl.resp.3 <- (input$spleen_0-input$spleen_3)/input$spleen_0 <= .3
+        low.spl.resp.6 <- (input$spleen_0-input$spleen_6)/input$spleen_0 <= .3
         s<-ifelse(low.spl.resp.3 && low.spl.resp.6, 1.5, 0)
         s <- ifelse(is.na(s),0,s)
         return(s)

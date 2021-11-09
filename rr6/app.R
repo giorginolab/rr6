@@ -18,7 +18,7 @@ ui <- fluidPage(
     fluidRow(
         column(4,wellPanel(
             h4("Data at baseline"),
-            helpText("Evaluation at ruxolitinib start"),
+            helpText("Evaluation at ruxolitinib start \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0"),
             hr(),
             numericInput('spleen_0', 
                          label='Spleen length (cm below LCM)', 
@@ -107,10 +107,10 @@ ui <- fluidPage(
                span("Risk points:"),
                tag("ul", list(
                    tag("li",list(
-                       "insufficient spleen length reduction: ", strong(textOutput("spleen.score.text", inline=T))),
+                       "spleen length reduction ≤30%: ", strong(textOutput("spleen.score.text", inline=T))),
                    ),
                    tag("li",list(
-                       "ruxolitinib dose: ", strong(textOutput("dose.score.text", inline=T))),
+                       "low ruxolitinib dose: ", strong(textOutput("dose.score.text", inline=T))),
                    ),
                    tag("li",list(
                        "transfusion status: ", strong(textOutput("transfusion.score.text", inline=T))),

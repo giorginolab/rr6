@@ -106,16 +106,16 @@ ui <- fluidPage(
                h4("Calculation"),
                span("Risk points:"),
                tag("ul", list(
-                tag("li",list(
-                    "insufficient spleen length reduction: ", strong(textOutput("spleen.score.text", inline=T))),
-                ),
-                tag("li",list(
-                    "ruxolitinib dose: ", strong(textOutput("dose.score.text", inline=T))),
-                ),
-                tag("li",list(
-                    "transfusion status: ", strong(textOutput("transfusion.score.text", inline=T))),
-                ))),
-                p("Total risk points: ", strong(textOutput("total.score.score.text", inline=T))),
+                   tag("li",list(
+                       "insufficient spleen length reduction: ", strong(textOutput("spleen.score.text", inline=T))),
+                   ),
+                   tag("li",list(
+                       "ruxolitinib dose: ", strong(textOutput("dose.score.text", inline=T))),
+                   ),
+                   tag("li",list(
+                       "transfusion status: ", strong(textOutput("transfusion.score.text", inline=T))),
+                   ))),
+               p("Total risk points: ", strong(textOutput("total.score.score.text", inline=T))),
         ),
         column(3,offset=1,
                h4("Legend"),
@@ -130,8 +130,8 @@ ui <- fluidPage(
     hr(),
     h4("Survival curves"),
     p("Actuarial survival curves of the 3 risk groups of patients according to the",
-    em("Response to Ruxolitinib after 6 months"),
-    "(RR6) developed in ruxolitinib-treated myelofibrosis patients (training cohort)."),
+      em("Response to Ruxolitinib after 6 months"),
+      "(RR6) developed in ruxolitinib-treated myelofibrosis patients (training cohort)."),
     p("Source: Maffioli et al., A Prognostic Model to Predict Survival After 6 Months of Ruxolitinib in Patients with Myelofibrosis. (Under review)"),
     br(),
     img(src="km-curve.jpeg")

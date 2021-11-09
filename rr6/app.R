@@ -18,7 +18,7 @@ ui <- fluidPage(
     fluidRow(
         column(4,wellPanel(
             h4("Data at baseline"),
-            p("Data at ruxolitinib start."),
+            helpText("Evaluation at ruxolitinib start"),
             hr(),
             numericInput('spleen_0', 
                          label='Spleen length (cm below LCM)', 
@@ -41,7 +41,7 @@ ui <- fluidPage(
         )),
         column(4,wellPanel(
             h4("Data at 3 months"),
-            p("Data 3 months after ruxolitinib start."),
+            helpText("Evaluation 3 months after ruxolitinib start"),
             hr(),
             numericInput('spleen_3', 
                          label='Spleen length (cm below LCM)', 
@@ -64,7 +64,7 @@ ui <- fluidPage(
         )),
         column(4,wellPanel(
             h4("Data at 6 months"),
-            p("Data 6 months after ruxolitinib start."),
+            helpText("Evaluation 6 months after ruxolitinib start"),
             hr(),
             numericInput('spleen_6', 
                          label='Spleen length (cm below LCM)', 
@@ -96,10 +96,11 @@ ui <- fluidPage(
                    h3("RR6 model results"),
                    p("Risk stratum:", strong(textOutput("total.score.class.text", inline=T), "-",  
                                              strong(textOutput("total.score.label.text", inline=T)))),
-                   p("Median survival:", 
+                   p("Median overall survival*:", 
                      strong(textOutput("total.score.medianos.text", inline=T), "months")),
-                   p("Median survival 95% CI:",
+                   p("Median o. survival* 95% CI:",
                      strong(textOutput("total.score.medianci.text", inline=T), "months")), 
+                   helpText("*counted from 6 months post ruxolitinib start.")
                )),
         column(3,
                h4("Calculation"),

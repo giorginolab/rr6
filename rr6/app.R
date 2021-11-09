@@ -18,6 +18,7 @@ ui <- fluidPage(
     fluidRow(
         column(4,wellPanel(
             h4("Data at baseline"),
+            p("Data at ruxolitinib start."),
             hr(),
             numericInput('spleen_0', 
                          label='Spleen length (cm below LCM)', 
@@ -40,6 +41,7 @@ ui <- fluidPage(
         )),
         column(4,wellPanel(
             h4("Data at 3 months"),
+            p("Data 3 months after ruxolitinib start."),
             hr(),
             numericInput('spleen_3', 
                          label='Spleen length (cm below LCM)', 
@@ -62,6 +64,7 @@ ui <- fluidPage(
         )),
         column(4,wellPanel(
             h4("Data at 6 months"),
+            p("Data 6 months after ruxolitinib start."),
             hr(),
             numericInput('spleen_6', 
                          label='Spleen length (cm below LCM)', 

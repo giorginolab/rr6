@@ -8,7 +8,7 @@ rux.help <- "E.g.: 20 mg BID = 40 mg total daily dose"
 ui <- fluidPage(
     title = "RR6 Model",
     
-    titlePanel("RR6 Calculator — Preview"),
+    titlePanel("RR6 Calculator"),
     p("The RR6 model predicts survival in myelofibrosis based on clinical response after 6 months of ruxolitinib."),
     p("Reference: M. Maffioli et al., A Prognostic Model to Predict Survival After 6 Months of Ruxolitinib in Patients with Myelofibrosis. (Under review)."),
     div(em("IMPORTANT: This tool is for educational use only. It does not constitute medical advice. It should not be used for medical diagnosis and/or medical treatment."),style="font-size: smaller"),
@@ -33,11 +33,10 @@ ui <- fluidPage(
             helpText(rux.help),
             br(),
             radioButtons("rbc_0", 
-                         label = "RBC transfusions",
+                         label = "RBC transfusions in the previous 3 months",
                          choices = list("not performed" = 0,
                                         "performed" = 1), 
                          selected = 0),
-            "...in the previous 3 months."
         )),
         column(4,wellPanel(
             h4("Data at 3 months"),
@@ -56,11 +55,10 @@ ui <- fluidPage(
             helpText(rux.help),
             br(),
             radioButtons("rbc_3", 
-                         label = "RBC transfusions",
+                         label = "RBC transfusions since baseline",
                          choices = list("not performed" = 0,
                                         "performed" = 1), 
                          selected = 0),
-            "...since baseline."
         )),
         column(4,wellPanel(
             h4("Data at 6 months"),
@@ -79,11 +77,10 @@ ui <- fluidPage(
             helpText(rux.help),
             br(),
             radioButtons("rbc_6", 
-                         label = "RBC transfusions",
+                         label = "RBC transfusions since the 3-month visit",
                          choices = list("not performed" = 0,
                                         "performed" = 1), 
                          selected = 0),
-            "...since the 3-month visit.",
         )),
         
     ),

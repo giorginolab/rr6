@@ -134,12 +134,10 @@ ui <- fluidPage(
     p("Actuarial survival curves of the 3 risk groups of patients according to the",
       em("Response to Ruxolitinib after 6 months"),
       "(RR6) developed in ruxolitinib-treated myelofibrosis patients (training cohort)."),
+    img(src="km-curve.jpeg"),
     p("Source: Maffioli et al., A Prognostic Model to Predict Survival After 6 Months of Ruxolitinib in Patients with Myelofibrosis.",
       em("Blood Advances."),
       a("doi:10.1182/bloodadvances.2021006889",href="https://doi.org/10.1182/bloodadvances.2021006889")),
-    br(),
-    img(src="km-curve.jpeg")
-    
 )
 
 

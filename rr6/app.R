@@ -14,7 +14,7 @@ ui <- fluidPage(
     h4("Reference"),
     p("Maffioli M, Mora B, Ball S, Iurlo A, Elli EM, Finazzi MC, Polverelli N, Rumi E, Caramella M, Carraro MC, D'Adda M, Molteni A, Sissa C, Lunghi F, Vismara A, Ubezio M, Guidetti A, Caberlon S, Anghilieri M, Komrokji RS, Cattaneo D, Della Porta MG, Giorgino T, Bertù L, Brociner M, Kuykendall AT, Passamonti F.  A Prognostic Model to Predict Survival After 6 Months of Ruxolitinib in Patients with Myelofibrosis.",
      em("Blood Advances"),"2022. bloodadvances.2021006889.",
-     a("10.1182/bloodadvances.2021006889",href="https://doi.org/10.1182/bloodadvances.2021006889")),
+     a("doi:10.1182/bloodadvances.2021006889",href="https://doi.org/10.1182/bloodadvances.2021006889")),
   
     div(em("IMPORTANT: This tool is for educational use only. It does not constitute medical advice. It should not be used for medical diagnosis and/or medical treatment."),style="font-size: smaller"),
     
@@ -134,7 +134,9 @@ ui <- fluidPage(
     p("Actuarial survival curves of the 3 risk groups of patients according to the",
       em("Response to Ruxolitinib after 6 months"),
       "(RR6) developed in ruxolitinib-treated myelofibrosis patients (training cohort)."),
-    p("Source: Maffioli et al., A Prognostic Model to Predict Survival After 6 Months of Ruxolitinib in Patients with Myelofibrosis. (Under review)"),
+    p("Source: Maffioli et al., A Prognostic Model to Predict Survival After 6 Months of Ruxolitinib in Patients with Myelofibrosis.",
+      em("Blood Advances."),
+      a("doi:10.1182/bloodadvances.2021006889",href="https://doi.org/10.1182/bloodadvances.2021006889")),
     br(),
     img(src="km-curve.jpeg")
     
